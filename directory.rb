@@ -2,21 +2,35 @@
 
 def input_students
   puts "Please enter the following for each student."
-  puts "To finish, simply hit return twice."
   #create empty array
 #  students = []
   #get the first name
-  puts "Name:"
-  name = STDIN.gets.capitalize.chomp
-  #while the name is not empty, repeat this code
-  while !name.empty? do
-    #add the student hash to the array
-    @students << {name: name, cohort: :November}
+  answer = "Y"
+  #while the answer is not Y, repeat this code
+  while answer == "Y" do
     puts "Now we have #{@students.count} student(s)"
     #get another name from the user
     puts "Name:"
     name = STDIN.gets.capitalize.chomp
+    puts "Cohort:"
+    cohort = STDIN.gets.capitalize.chomp
+    add_students_to_array(name, cohort)
+    puts "Would you like to add another student? (Y/N)"
+    answer = STDIN.gets.capitalize.chomp
+    while answer != "Y"
+      if answer == "N"
+        return
+      else
+        puts "Please enter \"Y\" or \"N\""
+        answer = STDIN.gets.capitalize.chomp
+      end
+    end
   end
+end
+
+def add_students_to_array(name, cohort)
+  #add a student hash to the @studets array
+  @students << {name: name, cohort: cohort}
 end
 
 def print_header
@@ -100,7 +114,8 @@ def load_students(filename = "students.csv")
   #iterate the file lines into the @students array
   file.readlines.each do |line|
     name, cohort = line.chomp.split(', ')
-    @students << {name: name, cohort: cohort.to_sym}
+    add_students_to_array(name, cohort)
+    #@students << {name: name, cohort: cohort.to_sym}
   end
   file.close
 end
