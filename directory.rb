@@ -74,7 +74,6 @@ def process(selection)
 end
 
 def interactive_menu
-  try_load_students #attempts to load the list of students
   #constantly run the interactive menu
   loop do
     print_menu
@@ -118,4 +117,5 @@ def try_load_students
   end
 end
 
+try_load_students #attempts to load the list of students
 interactive_menu #run the program
