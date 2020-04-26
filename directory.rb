@@ -7,7 +7,7 @@ def input_students
 #  students = []
   #get the first name
   puts "Name:"
-  name = gets.capitalize.chomp
+  name = STDIN.gets.capitalize.chomp
   #while the name is not empty, repeat this code
   while !name.empty? do
     #add the student hash to the array
@@ -15,7 +15,7 @@ def input_students
     puts "Now we have #{@students.count} student(s)"
     #get another name from the user
     puts "Name:"
-    name = gets.capitalize.chomp
+    name = STDIN.gets.capitalize.chomp
   end
 end
 
@@ -74,10 +74,11 @@ def process(selection)
 end
 
 def interactive_menu
+  try_load_students #attempts to load the list of students
   #constantly run the interactive menu
   loop do
     print_menu
-    process(gets.chomp)
+    process(STDIN.gets.chomp)
   end
 end
 
@@ -94,13 +95,27 @@ def save_students
   puts "Saved to file."
 end
 
-def load_students
-  file = File.open("students.csv", "r")
+def load_students(filename = "students.csv")
+  #open the filename for reading
+  file = File.open(filename, "r")
+  #iterate the file lines into the @students array
   file.readlines.each do |line|
-  name, cohort = line.chomp.split(', ')
+    name, cohort = line.chomp.split(', ')
     @students << {name: name, cohort: cohort.to_sym}
   end
   file.close
+end
+
+def try_load_students
+  filename = ARGV.first #first argument from the command line
+  return if filename.nil? #get out of the method if it isn't given
+  if File.exists?(filename) #if it exists
+    load_students(filename)
+    puts "Loaded #{@students.count} student(s) from #{filename}"
+  else #if it doesn't exist
+    puts "Sorry, #{filename} does not exist."
+    exit #quit the program
+  end
 end
 
 interactive_menu #run the program
