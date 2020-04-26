@@ -2,9 +2,6 @@
 
 def input_students
   puts "Please enter the following for each student."
-  #create empty array
-#  students = []
-  #get the first name
   answer = "Y"
   #while the answer is not Y, repeat this code
   while answer == "Y" do
@@ -55,6 +52,7 @@ end
 
 def print_menu
   #print the menu options
+  puts "What would you like to do?"
   puts "1. Input the students."
   puts "2. Show the list of students."
   puts "3. Save the list to students.csv"
@@ -81,9 +79,10 @@ def process(selection)
     when "4"
       load_students
     when "9"
+      puts "Thank you, come again!"
       exit
     else
-      puts "I don't know what you mean, try again"
+      puts "Please enter a menu number."
   end
 end
 
@@ -115,8 +114,8 @@ def load_students(filename = "students.csv")
   file.readlines.each do |line|
     name, cohort = line.chomp.split(', ')
     add_students_to_array(name, cohort)
-    #@students << {name: name, cohort: cohort.to_sym}
   end
+  puts "Loaded #{@students.count} student(s) from #{filename}"
   file.close
 end
 
@@ -124,10 +123,8 @@ def try_load_students
   filename = ARGV.first #first argument from the command line
   if filename.nil? #if no filename is provided
     load_students("students.csv")
-    puts "Loaded #{@students.count} student(s) from students.csv"
   elsif File.exists?(filename) #if it exists
     load_students(filename)
-    puts "Loaded #{@students.count} student(s) from #{filename}"
   else #if it doesn't exist
     puts "Sorry, #{filename} does not exist."
     exit #quit the program
