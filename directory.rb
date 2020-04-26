@@ -20,23 +20,27 @@ def input_students
 end
 
 def print_header
+  #print the student list header
   puts "|--------------------------------|"
   puts "|The Students of Villains Academy|"
   puts "|--------------------------------|"
 end
 
 def print_students_list
+  #print the list of students
   @students.each_with_index do |student, index|
       puts "#{index+1}: #{student[:name]}, (#{student[:cohort]} cohort)"
   end
 end
 
 def print_footer
+  #print the stude list footer
   puts "Overall, we have #{@students.count} great students."
   puts "----------------------------------"
 end
 
 def print_menu
+  #print the menu options
   puts "1. Input the students."
   puts "2. Show the list of students."
   puts "3. Save the list to students.csv"
@@ -44,12 +48,14 @@ def print_menu
 end
 
 def show_students
+  #show the header, student list and footer
   print_header
   print_students_list
   print_footer
 end
 
 def process(selection)
+  #run method based off menu selection
   case selection
     when "1"
       input_students
@@ -65,6 +71,7 @@ def process(selection)
 end
 
 def interactive_menu
+  #constantly run the interactive menu
   loop do
     print_menu
     process(gets.chomp)
@@ -83,4 +90,4 @@ def save_students
   file.close
 end
 
-interactive_menu
+interactive_menu #run the program
