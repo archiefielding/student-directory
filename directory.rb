@@ -122,8 +122,10 @@ end
 
 def try_load_students
   filename = ARGV.first #first argument from the command line
-  return if filename.nil? #get out of the method if it isn't given
-  if File.exists?(filename) #if it exists
+  if filename.nil? #if no filename is provided
+    load_students("students.csv")
+    puts "Loaded #{@students.count} student(s) from students.csv"
+  elsif File.exists?(filename) #if it exists
     load_students(filename)
     puts "Loaded #{@students.count} student(s) from #{filename}"
   else #if it doesn't exist
